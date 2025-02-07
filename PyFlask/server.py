@@ -1,17 +1,46 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import random
+import mysql.connector #Biblioteca para conectar com o banco de dados
 
 app = Flask(__name__)
 
 CORS(app)
 
+#Conexão com o banco de dados
+def create_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="123456",
+        database="dados"
+    )
+
 def get_sensor_data():
-    return {
+    data =  {
         "temperatura":round(random.uniform(20,80), 2),
         "umidade":round(random.uniform(30,90), 2),
         "pressao":round(random.uniform(900,1100), 2)
     }
+
+#Inserir dados no banco
+insert_sensor_data(data)
+return data
+
+#Função para inserir os dados
+def insert_sensor_data(data):
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+        query = "INSERT INTO sensores (umidade,pressao,temperatura) VAL (%s,%s,%s)"
+        cursor.execute(query, (data['umidade'],data['pressao'],data['temperatura']))
+        conn.commit()
+    except mysql.connector.Error as err:
+        print(f"Error: (err)")
+    finally:
+        cursor.close()
+        con.close
+
 
 @app.route('/sensores', methods=['GET'])
 def sensores():
