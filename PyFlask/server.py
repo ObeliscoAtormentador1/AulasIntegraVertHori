@@ -20,7 +20,8 @@ def get_sensor_data():
         "temperatura": round(random.uniform(20, 80), 2),
         "umidade": round(random.uniform(30, 90), 2),
         "pressao": round(random.uniform(900, 1100), 2),
-        "radiacao": round(random.uniform(15, 2000), 2)
+        "radiacao": round(random.uniform(15, 2000), 2),
+        "profundidade": round(random.uniform(0, 1000), 2)
     }
 
     # Inserir dados no banco
@@ -35,8 +36,8 @@ def insert_sensor_data(data):
     try:
         conn = create_connection()
         cursor = conn.cursor()
-        query = "INSERT INTO sensores (temperatura, pressao, umidade, radiacao) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (data['temperatura'], data['pressao'], data['umidade'],data['radiacao']))
+        query = "INSERT INTO sensores (temperatura, pressao, umidade, radiacao, profundidade) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(query, (data['temperatura'], data['pressao'], data['umidade'],data['radiacao'],data['profundidade']))
         conn.commit()
     except mysql.connector.Error as err:
         print(f"Error: {err}")
