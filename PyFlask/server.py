@@ -20,7 +20,7 @@ def get_sensor_data():
         "temperatura": round(random.uniform(20, 80), 2),
         "umidade": round(random.uniform(30, 90), 2),
         "pressao": round(random.uniform(900, 1100), 2),
-        "radiacao": round(random.uniform(1000, 11000), 2)
+        "radiacao": round(random.uniform(15, 2000), 2)
     }
 
     # Inserir dados no banco
