@@ -8,6 +8,7 @@ const chart = new Chart(ctx, {
       { label: 'Temperatura (C°)', data: [], borderColor: 'red', fill: false },
       { label: 'Umidade (%)', data: [], borderColor: 'blue', fill: false },
       { label: 'Pressão (hPa)', data: [], borderColor: 'green', fill: false },
+      { label: 'Radiação(bq)', data: [], borderColor: 'purple', fill: false },
     ],
   },
   options: {
@@ -26,6 +27,7 @@ async function atualizarSensores() {
     document.getElementById('temp').innerText = data.temperatura;
     document.getElementById('hum').innerText = data.umidade;
     document.getElementById('pres').innerText = data.pressao;
+    document.getElementById('radi').innerText = data.radiacao;
 
     const now = new Date().toLocaleTimeString();
 
@@ -33,6 +35,7 @@ async function atualizarSensores() {
     chart.data.datasets[0].data.push(data.temperatura);
     chart.data.datasets[1].data.push(data.umidade);
     chart.data.datasets[2].data.push(data.pressao);
+    chart.data.datasets[3].data.push(data.radiacao);
 
     if (chart.data.labels.length > 20) {
       chart.data.labels.shift();
