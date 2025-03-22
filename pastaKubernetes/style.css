@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('Superheaven.jpg') no-repeat center center/cover;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+.container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    color: aliceblue;
+}
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    background: rgb(77, 8, 29);
+    color: white;
+    border-radius: 5px;
+}
+button:hover {
+    background: rgb(94, 12, 32);
+}
