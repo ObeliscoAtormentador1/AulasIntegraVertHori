@@ -18,14 +18,22 @@ def enviar_dados(temperatura, umidade, pressao, radiacao) :
     resposta = requests.get(url)
     print(f"Resposta: {resposta.text}")
 
+db_config = {
+    'host': "db",
+    'user': "root",
+    'password': "123456",
+    'database': "cadastro_db"
+}
+
 def create_connection():
     return mysql.connector.connect(
-        host="localhost",
+        host="db",  # nome do serviço no docker-compose
         user="root",
         password="123456",
-        database="data"
+        database="cadastro_db"
     )
 
+       
 def insert_sensor_data(data):
     conn = None
     cursor = None
@@ -81,5 +89,27 @@ def index():
 def sensores():
     return jsonify(get_sensor_data())
 
+@app.route('/cadastrar', methods=['POST'])
+def cadastrar():
+    data = requests.json
+    nome = data['nome']
+    email = data ['email']
+
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO sensores (temperatura, pressao, umidade, radiacao) VALUES (%s, %s, %s, %s)")
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
