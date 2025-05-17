@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Agendar Consulta - Vida+ Saúde</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <h2>Olá, {{ usuario }}! Agende sua consulta</h2>
+  <form method="POST">
+    <label>Especialidade:</label><br>
+    <select name="especialidade" required>
+      <option value="Clínico Geral">Clínico Geral</option>
+      <option value="Cardiologia">Cardiologia</option>
+      <option value="Dermatologia">Dermatologia</option>
+    </select><br><br>
+
+    <label>Data:</label><br>
+    <input type="date" name="data" required><br><br>
+
+    <label>Horário:</label><br>
+    <input type="time" name="horario" required><br><br>
+
+    <button type="submit">Agendar</button>
+  </form>
+  <br>
+  <a href="{{ url_for('logout') }}">Sair</a>
+</body>
+</html>

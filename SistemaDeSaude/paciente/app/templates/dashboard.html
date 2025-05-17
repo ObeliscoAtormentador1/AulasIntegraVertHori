@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { color: green; margin-top: 10px; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo, Paciente!</h1>
+    
+    <div class="section">
+        <h2>Agendar Consulta</h2>
+        <form id="agendarForm">
+            <label>Especialidade:</label><br>
+            <select name="especialidade" required>
+                <option value="">Selecione</option>
+                <option value="Clínico Geral">Clínico Geral</option>
+                <option value="Cardiologia">Cardiologia</option>
+            </select><br><br>
+            
+            <label>Data:</label><br>
+            <input type="date" name="data" required><br><br>
+            
+            <label>Hora:</label><br>
+            <input type="time" name="hora" required><br><br>
+            
+            <button type="submit">Agendar</button>
+        </form>
+        <div id="agendamentoResult"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Minhas Consultas</h2>
+        <button onclick="carregarConsultas()">Atualizar Lista</button>
+        <div id="consultasList"></div>
+    </div>
+
+    <script>
+        async function carregarConsultas() {
+            try {
+                const response = await fetch('/api/consultas?paciente=paciente');
+                const consultas = await response.json();
+                const div = document.getElementById('consultasList');
+                
+                if (consultas.length > 0) {
+                    let html = '<ul>';
+                    consultas.forEach(consulta => {
+                        html += `<li>${consulta.especialidade} - ${consulta.data} às ${consulta.hora}</li>`;
+                    });
+                    html += '</ul>';
+                    div.innerHTML = html;
+                } else {
+                    div.innerHTML = '<p>Nenhuma consulta agendada.</p>';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+    document.getElementById('agendarForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        paciente: '{{ session["user"] }}',
+        especialidade: e.target.especialidade.value,
+        data: e.target.data.value,
+        hora: e.target.hora.value
+    };
+
+    try {
+        const response = await fetch('/api/agendar-consulta', {  // Nova rota
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        const resultDiv = document.getElementById('agendamentoResult');
+        
+        if (response.ok) {
+            resultDiv.innerHTML = `
+                <div class="success">
+                    Consulta agendada com sucesso! ID: ${result.id}
+                </div>
+            `;
+            carregarConsultas();
+        } else {
+            resultDiv.innerHTML = `<div class="error">Erro: ${result.error}</div>`;
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        document.getElementById('agendamentoResult').innerHTML = 
+            `<div class="error">Falha na conexão com o servidor</div>`;
+    }
+});
+
+        // Carrega consultas ao abrir a página
+        window.onload = carregarConsultas;
+    </script>
+</body>
+</html>

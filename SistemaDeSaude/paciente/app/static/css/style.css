@@ -1,0 +1,62 @@
+/* [...] (mantenha os estilos anteriores) */
+
+.section {
+    background: white;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.success {
+    color: green;
+    margin: 1rem 0;
+}
+
+.error {
+    color: red;
+    margin: 1rem 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: #f9f9f9;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+button[onclick] {
+    background: #f44336;
+}
+
+button[onclick]:hover {
+    background: #d32f2f;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #f44336;
+    text-decoration: none;
+}

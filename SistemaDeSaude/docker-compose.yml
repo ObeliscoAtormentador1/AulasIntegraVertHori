@@ -1,0 +1,42 @@
+services:
+  paciente:
+    build: ./paciente
+    ports:
+      - "5001:5000"
+    environment:
+      - CONSULTA_SERVICE_URL=http://consulta:5000
+      - FLASK_DEBUG=True
+
+  consulta:
+    build: ./consulta
+    ports:
+      - "5002:5000"
+    environment:
+      - PACIENTE_SERVICE_URL=http://paciente:5000
+      - FLASK_DEBUG=True
+
+  prontuario:
+    build: ./prontuario
+    ports:
+      - "5003:5000"
+    environment:
+      - FLASK_DEBUG=True
+
+  faturamento:
+    build: ./faturamento
+    ports:
+      - "5004:5000"
+    environment:
+      - CONSULTA_SERVICE_URL=http://consulta:5000
+      - FLASK_DEBUG=True
+
+  plano-saude:
+    build: ./plano-saude
+    ports:
+      - "5005:5000"
+    environment:
+      - FLASK_DEBUG=True
+
+networks:
+  default:
+    driver: bridge
